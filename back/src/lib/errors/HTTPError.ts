@@ -1,22 +1,10 @@
-interface ResponseError extends Error {
-    status?: string;
-    statusCode?: number;
-}
+import { ApplicationError } from "./Catalog.js";
 
-export default class HTTPError implements ResponseError {
-    status: string;
-    name: string = "";
-    isOperational = false;
+const HTTP_ERROR = {
+    409: new ApplicationError(
+        "CONFLICT",
+        "Resource already exists"
+    ),
+} as const;
 
-    constructor(
-        public message: string,
-        public statusCode: number,
-    ) {
-        this.status =
-            this.statusCode >= 400 && this.statusCode <= 500 ? "fail" : "error";
-
-        this.isOperational = true;
-
-        Error.captureStackTrace(this, this.constructor);
-    }
-}
+export default HTTP_ERROR;

@@ -7,6 +7,7 @@ import RedirectAuth from "./components/Auth/RedirectOnAuth";
 const Register = lazy(() => import("./pages/Public/Register"));
 const Login = lazy(() => import("./pages/Public/Login"));
 const PokemonMain = lazy(() => import("./pages/Private/Pokemon"));
+const SinglePokemon = lazy(() => import("./pages/Private/SinglePokemon"));
 
 export default () => {
     return (
@@ -20,6 +21,7 @@ export default () => {
             </Route>
 
             <Route path="/" element={<PokemonMain />}/>
+            <Route path="/:pokemon" element={<SinglePokemon />} />
         </Routes>
     );
 };

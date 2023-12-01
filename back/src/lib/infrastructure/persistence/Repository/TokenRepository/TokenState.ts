@@ -1,7 +1,6 @@
-import { IContext } from "../infrastructure/IContext.js";
 import Token from "./Token.js";
 
-export class TokenState implements IContext
+export class TokenState
 {
     id: string;
     data: {

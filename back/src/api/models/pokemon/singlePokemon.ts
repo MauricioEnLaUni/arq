@@ -1,8 +1,8 @@
-import { PrismaClient } from "@prisma/client"
+import PgAccess from "../../../lib/infrastructure/PgAccess.js";
 
 const singlePokemon = async (req, res) => {
     const id = Number(req.params.id);
-    const prisma = new PrismaClient();
+    const prisma = PgAccess.getClient();
 
     const pokemon = await prisma.pokemon.findFirst({
         where: { id },
@@ -76,7 +76,7 @@ const singlePokemon = async (req, res) => {
         }
     });*/
 
-    return res.status(200).json({ pokemon });
+    return res.status(200).json(pokemon);
 }
 
 export default singlePokemon;

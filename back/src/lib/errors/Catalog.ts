@@ -15,6 +15,18 @@ const ERRORS = {
         "NOT_IMPLEMENTED",
         "Method not Implemented"
     ),
+    VALUE_OUT_RANGE: new ApplicationError(
+        "VALUE_OUT_RANGE",
+        "Enumerator does not contain member"
+    ),
+    UPDATE_FAILED: new ApplicationError(
+        "UPDATE_FAILED",
+        "Update failed for record"
+    ),
+    NO_RECORDS: new ApplicationError(
+        "NO_RECORDS",
+        "Database returned empty"
+    ),
 } as const;
 
 export type ErrorCatalog = keyof typeof ERRORS;

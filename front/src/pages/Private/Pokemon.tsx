@@ -13,17 +13,17 @@ import Pagination from "../../components/Pagination";
 
 const PokemonCatalogPage = () => {
     const [searchParams, setSearchParams] = useSearchParams();
-    const page = Number(searchParams.get("page"));
+    const page = Number(searchParams.get("page")) ?? 1;
     const { data, isLoading } = useQuery({
         queryFn: () => fetchMainPage(page),
-        queryKey: ["frontPagePokemon"]
+        queryKey: ["frontPagePokemon", page],
     });
 
     return (
-        <Container>
-            { isLoading ? <></> :
+        <Container className="mt-5">
+            { isLoading &&
             <Stack>
-                <Container>
+                <Container className="flex justify-center">
                     <Grid container spacing={1.25} className="content-between items-center flex">
                         { data?.map((e: any) => (
                             <Grid lg={2} key={`pkm-card-${ e.name }`}>
@@ -32,7 +32,9 @@ const PokemonCatalogPage = () => {
                         ))}
                     </Grid>
                 </Container>
-                <Pagination pages={ page } setCurrent={setSearchParams}/>
+                <Container className="mx-auto my-4">
+                    <Pagination records={ 151 } display={24} current={ page } setCurrent={setSearchParams} />
+                </Container>
             </Stack>
             }
         </Container>

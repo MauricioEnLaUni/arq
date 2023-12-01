@@ -1,6 +1,7 @@
+import { Link } from "react-router-dom";
+
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
-import Typography from "@mui/material/Typography";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import sentenceCase from "../../lib/sentenceCase";
@@ -21,7 +22,7 @@ const FrontPageCard = ({ id, name, types }: Props) => {
                 title={`media for ${ name }`}
             />
             <CardContent>
-                <Typography>{ sentenceCase(name) }</Typography>
+                <Link to={`/${id}`}>#{ id } { sentenceCase(name) }</Link>
             </CardContent>
             <CardActions>
                 { types.map((t, i) => <TypeLogo type={t} key={`type-button-${ id }-${ i }`}/>)}

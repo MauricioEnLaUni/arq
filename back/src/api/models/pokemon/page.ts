@@ -1,12 +1,12 @@
-import { PrismaClient } from "@prisma/client";
+import PgAccess from "../../../lib/infrastructure/PgAccess.js";
 
-const pageSize = 25;
+const pageSize = 24;
 
 const page = async (req, res) => {
     const current = req.query.page;
-    const prisma = new PrismaClient();
+    const prisma = PgAccess.getClient();
 
-    const skip = current && current > 0 ? (current - 1) * pageSize : 0;
+    const skip = current && current > 0 ? (current) * pageSize : 0;
     const page = await prisma.pokemon.findMany({
         skip,
         take: pageSize,
