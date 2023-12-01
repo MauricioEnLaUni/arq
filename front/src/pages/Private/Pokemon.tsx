@@ -21,7 +21,7 @@ const PokemonCatalogPage = () => {
 
     return (
         <Container className="mt-5">
-            { isLoading &&
+            { !isLoading &&
             <Stack>
                 <Container className="flex justify-center">
                     <Grid container spacing={1.25} className="content-between items-center flex">

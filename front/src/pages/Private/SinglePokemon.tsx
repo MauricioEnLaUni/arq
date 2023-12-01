@@ -20,17 +20,17 @@ const SinglePokemon = () => {
     const statColor = ["bg-red-500", "bg-orange-300", "bg-amber-400", "bg-sky-600", "bg-emerald-400", "bg-pink-500"];
 
   return (
-    <Container>
+    <Container className="mt-5">
         <Grid container>
             <Grid xs={3}>
-                <Stack>
-                    <Container>
+                <Stack className="flex items-center justify-center">
+                    <Container className="flex justify-center">
                         <img src={`/img/pokemons/${ id }.png`} alt={`${ name } sprite`} />
                     </Container>
                     <Typography>#{ id }&nbsp;{ name }</Typography>
-                    <Container>
+                    <Stack direction="row" spacing={3}>
                         { types.map((e: any, i: number) => <TypeLogo key={`pokemon-type-${ i }`} type={ e.type.name } />)}
-                    </Container>
+                    </Stack>
                 </Stack>
             </Grid>
             <Grid xs={9}>

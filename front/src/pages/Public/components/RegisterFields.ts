@@ -4,12 +4,10 @@ const path = "register.fields.";
 const fields = [
     { id: "usr", autoComplete: "off" },
     { type: "password", id: "pwd" },
-    { id: "email", type: "email" },
 ]
 const regexs = [
     /^[A-z][A-z0-9-_]{3,23}$/,
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/,
-    /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i
 ];
 
 const vals = regexs.map((r, index) => {

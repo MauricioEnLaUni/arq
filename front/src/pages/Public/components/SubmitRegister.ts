@@ -6,13 +6,12 @@ import httpError from "../../../lib/Errors/httpError";
 export default async (event: FormEvent<HTMLFormElement>, setters: any) => {
     event.preventDefault();
     // @ts-ignore
-    const { usr, pwd, email } = event.target;
+    const { usr, pwd, } = event.target;
 
     try {
         const response = await axios.post("/auth/new", {
             usuario: usr.value,
             password: pwd.value,
-            email: email.value
         });
         setters.auth(response.data);
     } catch(error) {
