@@ -2,6 +2,7 @@ import express from "express";
 
 import HandleCreateUser from "../models/user/Handlers/HandleCreateUser.js";
 import HandleLogin from "../models/refresh/Handlers/HandleLogin.js";
+import Token from "../models/refresh/Token.js";
 
 const router = express.Router();
 
@@ -27,9 +28,10 @@ router.route("/auth").post(async (req, res) => {
         return res.status(500).json(auth);
     }
 
-    const {} = auth.value;
+    const { accessToken, refreshToken } = auth.value as {
+        accessToken: Token, refreshToken: Token };
 
-    return res.status(200).json();
+    return res.json({ accessToken, refreshToken });
 });
 /*
 router.route("/update").post(verifyJWT, update);
