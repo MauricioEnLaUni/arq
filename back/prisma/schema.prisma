@@ -1,0 +1,176 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model usuarios {
+  id       String     @id @db.Uuid
+  nombre   String     @unique
+  password String
+  email    String     @unique
+  status   UserStatus
+  party    party?
+  boxes    box[]
+}
+
+enum UserStatus {
+  ACTIVE
+  BANNED
+  SUSPENDED
+  ADMIN
+}
+
+model pokemon {
+  id         Int              @id @default(autoincrement())
+  name       String           @unique @db.Text
+  abilities  PokemonAbility[]
+  base_exp   Int
+  height     Int
+  held_items PokemonItem[]
+  moves      PokemonMove[]
+  stats      stats[]
+  types      PokemonTypes[]
+  weight     Int
+  parties    party_slot[]
+  boxes      box_slot[]
+}
+
+model ability {
+  id          Int              @id
+  name        String           @unique @db.Text
+  description String           @db.Text
+  pokemon     PokemonAbility[]
+}
+
+model PokemonAbility {
+  id        Int     @id @default(autoincrement())
+  pokemon   pokemon @relation(fields: [pokemonId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  ability   ability @relation(fields: [abilityId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  pokemonId Int
+  abilityId Int
+}
+
+model item {
+  id          Int           @id
+  cost        Int
+  description String        @db.Text
+  name        String        @db.Text
+  pokemon     PokemonItem[]
+}
+
+model PokemonItem {
+  id        Int     @id @default(autoincrement())
+  pokemon   pokemon @relation(fields: [pokemonId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  item      item    @relation(fields: [itemId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  pokemonId Int
+  itemId    Int
+}
+
+enum DamageClass {
+  STATUS
+  PHYSICAL
+  SPECIAL
+}
+
+model move {
+  id           Int           @id
+  accuracy     Int?
+  damageClass  DamageClass
+  effectChance Int?
+  description  String        @db.Text
+  name         String        @db.Text
+  power        Int?
+  pp           Int
+  priority     Int
+  type         types         @relation(fields: [typeId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  typeId       Int
+  pokemon      PokemonMove[]
+}
+
+model PokemonMove {
+  id        Int     @id @default(autoincrement())
+  pokemon   pokemon @relation(fields: [pokemonId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  move      move    @relation(fields: [moveId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  pokemonId Int
+  moveId    Int
+}
+
+model stats {
+  id        String  @id @default(uuid()) @db.Uuid
+  name      String
+  base      Int
+  pokemon   pokemon @relation(fields: [pokemonId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  pokemonId Int
+  effort    Int
+}
+
+model types {
+  id        Int                @id @default(autoincrement())
+  name      String             @db.Text
+  pokemon   PokemonTypes[]
+  dmgSource damage_relations[] @relation(name: "damageSource")
+  dmgTarget damage_relations[] @relation(name: "damageTarget")
+  moves     move[]
+}
+
+enum DamageFactor {
+  None
+  Half
+  Double
+}
+
+model damage_relations {
+  key          String       @db.Text
+  factor       DamageFactor
+  sourceTypeId Int
+  targetTypeId Int
+  sourceType   types        @relation(name: "damageSource", fields: [sourceTypeId], references: [id])
+  targetType   types        @relation(name: "damageTarget", fields: [targetTypeId], references: [id])
+
+  @@id([key, factor, sourceTypeId, targetTypeId])
+}
+
+model PokemonTypes {
+  id        Int     @id @default(autoincrement())
+  pokemon   pokemon @relation(fields: [pokemonId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  type      types   @relation(fields: [typesId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  pokemonId Int
+  typesId   Int
+}
+
+model party {
+  id         String       @id @default(uuid()) @db.Uuid
+  usuarios   usuarios     @relation(fields: [usuariosId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  usuariosId String       @unique @db.Uuid
+  slot       party_slot[]
+}
+
+model box {
+  id         String     @id @default(uuid()) @db.Uuid
+  number     Int
+  usuarios   usuarios   @relation(fields: [usuariosId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  usuariosId String     @unique @db.Uuid
+  slot       box_slot[]
+}
+
+model party_slot {
+  id        String   @id @default(uuid()) @db.Uuid
+  number    Int
+  party     party    @relation(fields: [partyId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  partyId   String   @db.Uuid
+  pokemon   pokemon? @relation(fields: [pokemonId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  pokemonId Int?
+}
+
+model box_slot {
+  id        String   @id @default(uuid()) @db.Uuid
+  number    Int
+  box       box      @relation(fields: [boxId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  boxId     String   @db.Uuid
+  pokemon   pokemon? @relation(fields: [pokemonId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  pokemonId Int?
+}

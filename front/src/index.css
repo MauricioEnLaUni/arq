@@ -1,0 +1,15 @@
+@import "@fontsource/noto-sans";
+@import "@fontsource-variable/mulish";
+@import "@fontsource-variable/open-sans";
+@import "@fontsource-variable/montserrat";
+@import "@fontsource-variable/eb-garamond";
+@import "@fontsource-variable/red-hat-mono";
+
+@tailwind components;
+@tailwind utilities;
+
+.title-shadow {
+    text-shadow:
+        1pt 1.25pt 0.1pt #032e52,
+        -2.25pt -1pt 0.25pt #a5b9c9;
+}
