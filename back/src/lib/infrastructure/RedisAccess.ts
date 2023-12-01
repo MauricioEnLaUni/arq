@@ -2,6 +2,7 @@ import { Redis } from "@upstash/redis";
 
 import DBEmitter from "../utils/dbEmitter.js";
 import DbTracker from "../logging/DatabaseTracker.js";
+import { DatabaseCatalog } from "./DatabaseCatalog.js";
 
 class RedisAccess
 {
@@ -24,12 +25,12 @@ class RedisAccess
         if (!RedisAccess.emitter)
         {
             RedisAccess.emitter = new DBEmitter();
-            RedisAccess.emitter.on("call", (client: Redis) => {
-                DbTracker.call(client);
+            RedisAccess.emitter.on("call", (repo: DatabaseCatalog, client: Redis) => {
+                DbTracker.call(repo, client);
             });
         }
 
-        RedisAccess.emitter.emit("call", RedisAccess.client);
+        RedisAccess.emitter.emit("call", "TOKEN", RedisAccess.client);
 
         return RedisAccess.client;
     }

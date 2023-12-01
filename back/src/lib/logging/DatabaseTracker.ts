@@ -21,8 +21,17 @@ class DatabaseTracker
 
     static call(action: DatabaseCatalog, client: unknown)
     {
-        if (action === "POKEMON") {
-            if (!DatabaseTracker.pgTracker)
+        if (action === "TOKEN") {
+            if (!DatabaseTracker.redisTracker)
+            {
+                DatabaseTracker.redisTracker = new RedisSubject();
+            }
+
+            console.log(`La base de datos de redis se ha llamado: ${this.redisTracker.calls} veces`);
+            console.log(`Este método ha creado: ${ this.redisTracker.created } clientes`);
+            DatabaseTracker.redisTracker.call(client as Redis);
+        }
+        if (!DatabaseTracker.pgTracker)
             {
                 DatabaseTracker.pgTracker = new PgSubject();
             }
@@ -31,17 +40,6 @@ class DatabaseTracker
 
             console.log(`La base de datos de postgresql se ha llamado: ${this.pgTracker.calls} veces`);
             console.log(`Este método ha creado: ${ this.pgTracker.created } clientes`);
-        }
-        if (action === "USER") {
-            if (!DatabaseTracker.redisTracker)
-            {
-                DatabaseTracker.redisTracker = new RedisSubject();
-            }
-
-            console.log(`La base de datos de postgresql se ha llamado: ${this.redisTracker.calls} veces`);
-            console.log(`Este método ha creado: ${ this.redisTracker.created } clientes`);
-            DatabaseTracker.redisTracker.call(client as Redis);
-        }
     }
 }
 
