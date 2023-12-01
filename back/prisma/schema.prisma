@@ -9,9 +9,8 @@ datasource db {
 
 model usuarios {
   id       String     @id @db.Uuid
-  nombre   String     @unique
+  username   String     @unique
   password String
-  email    String     @unique
   status   UserStatus
   party    party?
   boxes    box[]
@@ -37,6 +36,8 @@ model pokemon {
   weight     Int
   parties    party_slot[]
   boxes      box_slot[]
+  box_stats box_stats[]
+  party_stats party_stats[]
 }
 
 model ability {
@@ -173,4 +174,22 @@ model box_slot {
   boxId     String   @db.Uuid
   pokemon   pokemon? @relation(fields: [pokemonId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   pokemonId Int?
+}
+
+model box_stats {
+  id        String  @id @default(uuid()) @db.Uuid
+  name      String
+  base      Int
+  pokemon   pokemon @relation(fields: [pokemonId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  pokemonId Int
+  effort    Int
+}
+
+model party_stats {
+  id        String  @id @default(uuid()) @db.Uuid
+  name      String
+  base      Int
+  pokemon   pokemon @relation(fields: [pokemonId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  pokemonId Int
+  effort    Int
 }

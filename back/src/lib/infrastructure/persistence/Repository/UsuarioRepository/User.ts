@@ -1,9 +1,7 @@
 import Token from "../TokenRepository/Token.js";
-import { IContext } from "../infrastructure/IContext.js";
 
-class User implements IContext
+class User
 {
-    [key: string]: unknown;
     username: string;
     
     password: string;

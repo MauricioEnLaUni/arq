@@ -9,6 +9,10 @@ const AUTH_ERROR = {
         "WRONG_PASSWORD",
         "El password está equivocado"
     ),
+    NOT_FOUND: new ApplicationError(
+        "NOT_FOUND",
+        "User not found."
+    ),
 } as const;
 
 export default AUTH_ERROR;
