@@ -1,7 +1,7 @@
-import { ICommand } from "../../../../lib/Abstractions/ICommand.js";
-import { TResult } from "../../../../lib/utils/Result.js";
 import UserDto from "./UserDto.js";
 import UserHandler from "./UserHandler.js";
+import { ICommand } from "../../../../lib/Abstractions/ICommand.js";
+import { TResult } from "../../../../lib/utils/Result.js";
 
 class CreateUser implements ICommand
 {

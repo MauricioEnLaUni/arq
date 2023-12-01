@@ -2,6 +2,11 @@ import express from "express";
 
 import verifyJWT from "../../lib/middleware/verifyJWT.js";
 
+class AuthController
+{
+    private UserHandler
+}
+
 const router = express.Router();
 
 router.route("/new").post((req, res) => {

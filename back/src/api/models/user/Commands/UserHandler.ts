@@ -1,13 +1,13 @@
 import crypto, { timingSafeEqual } from "crypto";
 
-import User from "../../../../lib/infrastructure/persistence/Repository/UsuarioRepository/User.js";
+import User from "../User.js";
+import UserDto from "./UserDto.js";
+import ERRORS from "../../../../lib/errors/Catalog.js";
 import PgProxy from "../../../../lib/proxies/PgProxy.js";
 import { TResult } from "../../../../lib/utils/Result.js";
 import HTTP_ERROR from "../../../../lib/errors/HTTPError.js";
 import AUTH_ERROR from "../../../../lib/errors/AuthError.js";
-import UserDto from "./UserDto.js";
 import RedisProxy from "../../../../lib/proxies/RedisProxy.js";
-import ERRORS from "../../../../lib/errors/Catalog.js";
 
 class UserHandler
 {

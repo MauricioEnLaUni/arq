@@ -1,7 +1,7 @@
-import { ICommand } from "../../../../lib/Abstractions/ICommand.js";
-import User from "../../../../lib/infrastructure/persistence/Repository/UsuarioRepository/User.js";
-import { TResult } from "../../../../lib/utils/Result.js";
+import User from "../User.js";
 import UserHandler from "./UserHandler.js";
+import { ICommand } from "../../../../lib/Abstractions/ICommand.js";
+import { TResult } from "../../../../lib/utils/Result.js";
 
 class UpdateUser implements ICommand
 {
