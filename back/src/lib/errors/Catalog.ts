@@ -27,6 +27,10 @@ const ERRORS = {
         "NO_RECORDS",
         "Database returned empty"
     ),
+    INFINITE_LOOP: new ApplicationError(
+        "INFINITE_LOOP",
+        "Triggers an infinite loop"
+    ),
 } as const;
 
 export type ErrorCatalog = keyof typeof ERRORS;

@@ -13,6 +13,10 @@ const AUTH_ERROR = {
         "NOT_FOUND",
         "User not found."
     ),
+    UNAUTHORIZED: new ApplicationError(
+        "UNAUTHORIZED",
+        "User has no access to this resource."
+    ),
 } as const;
 
 export default AUTH_ERROR;
