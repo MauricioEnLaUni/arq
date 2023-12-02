@@ -1,36 +1,36 @@
+import Logout from "../Commands/Logout.js";
+import TokenHandler from "../TokenHandler.js";
+import DecodeJwt from "../Commands/Decode.js";
 import LoadUser from "../Commands/LoadUser.js";
 import ResponsibilityChain, { ChainLink } from "../../ResponsibilityChain.js";
-import TokenHandler from "../TokenHandler.js";
-import ExpireToken from "../Commands/ExpireToken.js";
-import VerifyJwt from "../Commands/VerifyJwt.js";
 
-class RefreshToken
+class LogoutHandler
 {
+    private decode: DecodeJwt;
     private load: LoadUser;
-    private expire: ExpireToken;
-    private verify: VerifyJwt;
+    private logout: Logout;
 
     private cor = new ResponsibilityChain();
 
     private history: ChainLink[] = [];
 
     constructor(
-        username: string,
+        jwt: string,
         private handler = new TokenHandler(),
     ) {
-        this.load = new LoadUser(this.handler, username);
+        this.decode = new DecodeJwt(this.handler, jwt);
 
-        this.expire = new ExpireToken(this.handler);
-
-        this.verify = new VerifyJwt(this.handler);
+        this.load = new LoadUser(this.handler);
+        
+        this.logout = new Logout(this.handler);
     }
 
     async handle()
     {
         const actions = this.cor.buildChain([
+            this.decode,
             this.load,
-            this.expire,
-            this.verify,
+            this.logout,
         ]);
 
         this.history = actions;
@@ -43,4 +43,4 @@ class RefreshToken
     }
 }
 
-export default RefreshToken;
+export default LogoutHandler;

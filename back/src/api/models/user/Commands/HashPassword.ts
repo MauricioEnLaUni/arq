@@ -6,8 +6,7 @@ import UserHandler from "./UserHandler.js";
 class HashPassword implements ICommand
 {
     constructor(
-        private receiver: UserHandler,
-        private state: string) {  }
+        private receiver: UserHandler) {  }
 
     async execute(): Promise<TResult> {
         return await this.receiver.Hash();

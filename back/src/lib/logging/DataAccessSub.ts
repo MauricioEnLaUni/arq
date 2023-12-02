@@ -1,4 +1,4 @@
-import crypto, { createHash } from "node:crypto";
+import { createHash } from "node:crypto";
 
 import IObserver from "../Abstractions/IObserver.js";
 import PgAccess from "../infrastructure/PgAccess.js";

@@ -28,7 +28,7 @@ class HandleCreateUser
             password
         });
 
-        this.hash = new HashPassword(this.handler, password);
+        this.hash = new HashPassword(this.handler);
     }
 
     async handle()

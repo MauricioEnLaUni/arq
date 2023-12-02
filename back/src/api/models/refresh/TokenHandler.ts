@@ -11,8 +11,11 @@ class TokenHandler
 {
     public current: User;
 
-    public async LoadUser(id: string, r = new RedisProxy())
+    public username: string;
+
+    public async LoadUser(user?: string, r = new RedisProxy())
     {
+        const id = user ?? this.username;
         const result = await r.getById(id);
 
         this.current = result.value as User;
@@ -69,12 +72,6 @@ class TokenHandler
 
     public async VerifyJwt(r = new RedisProxy())
     {
-        /*
-        const cookies = req.cookies;
-        if (!cookies?.["74f913380c62fc3c08755a33f9457a58"]) {
-            return res.sendStatus(401);
-        }
-        const refresh = cookies["74f913380c62fc3c08755a33f9457a58"];*/
         const { username, refreshToken } = this.current;
 
         return TResult.Success((res: any) => jwt.verify(refreshToken.content, process.env.REFRESH_TOKEN, (err, decoded) => {
@@ -161,6 +158,14 @@ class TokenHandler
         if (typeof result === "boolean") return TResult.Success(result);
 
         return TResult.Failure(AUTH_ERROR.WRONG_PASSWORD);
+    }
+
+    public async DecodeJwt(jwt: string)
+    {
+        const parts = jwt.split(".");
+        const header = JSON.parse(Buffer.from(parts[0], "base64").toString());
+
+        return TResult.Success(header.username);
     }
 }
 

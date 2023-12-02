@@ -1,5 +1,5 @@
-import { IRecord } from "../../lib/infrastructure/persistence/DBFactory.js";
 import { Result, TResult } from "../utils/Result.js";
+import IRecord from "./IRecord.js";
 
 interface IDataProvider
 {

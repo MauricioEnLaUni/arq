@@ -1,16 +1,14 @@
-import { pokemon } from "@prisma/client";
-import { IDbProxy } from "../../../lib/infrastructure/persistence/DatabaseProxy/IDbProxy.js";
-import { ICommand } from "../../../lib/infrastructure/persistence/Repository/infrastructure/ICommand.js";
-import { Result } from "../../../lib/utils/Result.js";
-import { PgProxy } from "../../../lib/infrastructure/persistence/DatabaseProxy/Postgres/PgProxy.js";
+import { ICommand } from "../../../lib/Abstractions/ICommand.js";
+import { TResult } from "../../../lib/utils/Result.js";
+
 
 class CatchPokemon implements ICommand
 {
-    async execute(db: PgProxy, ctx?: pokemon): Promise<Result> {
+    async execute(): Promise<TResult> {
         
-        return Result.Success();
+        return TResult.Success(undefined);
     }
-    async undo(db: IDbProxy): Promise<Result> {
+    async undo(): Promise<TResult> {
         return;
     }
     

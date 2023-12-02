@@ -17,6 +17,10 @@ const AUTH_ERROR = {
         "UNAUTHORIZED",
         "User has no access to this resource."
     ),
+    METHOD_NOT_SUPPORTED: new ApplicationError(
+        "METHOD_NOT_SUPPORTED",
+        "Data cannot be processed"
+    ),
 } as const;
 
 export default AUTH_ERROR;

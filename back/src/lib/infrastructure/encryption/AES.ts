@@ -2,7 +2,8 @@ import crypto from "node:crypto";
 
 import { decode, encode } from "@msgpack/msgpack";
 import compareUIntArrays from "../../utils/compareUIntArrays.js";
-import HTTPError from "../../errors/HTTPError.js";
+import AUTH_ERROR from "../../errors/AuthError.js";
+import { TResult } from "../../utils/Result.js";
 
 export default class AES {
     private static method = process.env.CRYPTO_METHOD as string;
@@ -46,7 +47,7 @@ export default class AES {
         const values = data.slice(0, -32);
 
         if (!AES.verify(values, digest)) {
-            return new HTTPError("HMAC doesn't match", 400);
+            return TResult.Failure(AUTH_ERROR.CONFLICT);
         }
 
         const iv = data.slice(-48, -32);
