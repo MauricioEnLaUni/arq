@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 
 import RequireAuth from "./components/Auth/RequireAuth";
 import RedirectAuth from "./components/Auth/RedirectOnAuth";
+import GeneralLayout from "./components/Layout/GeneralLayout";
 
 const Register = lazy(() => import("./pages/Public/Register"));
 const Login = lazy(() => import("./pages/Public/Login"));
@@ -20,8 +21,10 @@ export default () => {
                 <Route path="/auth/login" element={<Login />} />
             </Route>
 
-            <Route path="/" element={<PokemonMain />}/>
-            <Route path="/:pokemon" element={<SinglePokemon />} />
+            <Route element={<GeneralLayout />}>
+                <Route path="/" element={<PokemonMain />}/>
+                <Route path="/:pokemon" element={<SinglePokemon />} />
+            </Route>
         </Routes>
     );
 };
