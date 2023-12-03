@@ -35,7 +35,7 @@ export class TResult
 
     public isSuccess(): boolean
     {
-        return !!this.value;
+        return Boolean(this.value);
     }
 
     public isFailure(): boolean

@@ -1,8 +1,8 @@
 import express from "express";
 
-import HandleCreateUser from "../models/user/Handlers/HandleCreateUser.js";
-import HandleLogin from "../models/refresh/Handlers/HandleLogin.js";
 import Token from "../models/refresh/Token.js";
+import HandleLogin from "../models/refresh/Handlers/HandleLogin.js";
+import HandleCreateUser from "../models/user/Handlers/HandleCreateUser.js";
 
 const router = express.Router();
 
@@ -16,7 +16,7 @@ router.route("/new").post(async (req, res) => {
         return res.status(500).json(newUser);
     }
 
-    return res.status(200).json(newUser);
+    return res.status(200).json(newUser.value);
 });
 
 router.route("/auth").post(async (req, res) => {

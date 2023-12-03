@@ -10,6 +10,7 @@ import verifyJWT from "./lib/middleware/verifyJWT.js";
 import { TokenController } from "./api/Controllers/TokenController.js";
 import credentials from "./lib/middleware/credentials.js";
 import { PokemonController } from "./api/Controllers/PokemonController.js";
+import RedisProxy from "./lib/proxies/RedisProxy.js";
 
 const server = express();
 const PORT = process.env.PORT || 8082;
@@ -19,7 +20,12 @@ server.use(cors(corsOptions));
 server.use(express.json());
 server.use(cookieParser());
 
-server.use("/test", (req, res) => {
+server.use("/test", async (req, res) => {
+    const { username, password } = req.body;
+    const data = { id: username, data: { username, password }}
+    const redis = new RedisProxy();
+    await redis.upsert(data);
+
     return res.status(200).json(req.body);
 });
 server.use("/pokemon", PokemonController);

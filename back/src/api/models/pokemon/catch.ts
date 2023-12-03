@@ -11,7 +11,6 @@ class CatchPokemon implements ICommand
     async undo(): Promise<TResult> {
         return;
     }
-    
 }
 
 export const throwPokeball = () => {

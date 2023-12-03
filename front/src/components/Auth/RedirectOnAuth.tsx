@@ -6,7 +6,7 @@ export default () => {
     const location = useLocation();
 
     return auth ? (
-        <Navigate to="/auth/login" state={{ from: location }} replace />
+        <Navigate to="/" state={{ from: location }} replace />
     ) : (
         <Outlet />
     );

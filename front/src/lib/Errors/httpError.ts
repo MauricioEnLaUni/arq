@@ -25,6 +25,6 @@ export default (error: unknown) => {
         }
     } else if (err.request) {
     } else {
-        return;
+        console.error(error);
     }
 };

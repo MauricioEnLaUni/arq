@@ -17,7 +17,7 @@ class RemoveUser implements ICommand
         return TResult.Success(this.state.username);
     }
     async undo(): Promise<TResult> {
-        return await this.receiver.CreateUser(this.state);
+        return await this.receiver.CreateUser();
     }
 }
 

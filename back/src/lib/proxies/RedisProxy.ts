@@ -8,7 +8,7 @@ class RedisProxy implements IDataProvider
 {
     private db? = RedisAccess.getClient();
 
-    private readonly needsConnection = new Set(["upsert", "rm", "read"]);
+    private readonly needsConnection = new Set(["upsert", "rm", "getById"]);
 
     constructor () 
     {
@@ -52,17 +52,16 @@ class RedisProxy implements IDataProvider
     }
 
     async getById(id: string): Promise<TResult> {
-        const result = this.db.get(id);
+        const result = await this.db.get(id);
         
         return result ? TResult.Success(result) : TResult.Failure(ERRORS.NOT_FOUND);
     }
 
     async upsert(data: IRecord): Promise<TResult> {
-        const result = await this.db.set(data.id, data);
+        const { id, data: value } = data;
+        const result = await this.db.set(id, value);
 
-        return result ?
-            TResult.Success(result) :
-                TResult.Failure(ERRORS.UPDATE_FAILED);
+        return TResult.Success(result);
     }
 
     async rm(id: string): Promise<Result> {

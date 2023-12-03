@@ -1,16 +1,14 @@
-import LoadUser from "../Commands/LoadUser.js";
 import CreateUser from "../Commands/CreateUser.js";
-import UnloadUser from "../Commands/UnloadUser.js";
 import UserHandler from "../Commands/UserHandler.js";
 import HashPassword from "../Commands/HashPassword.js";
 import ResponsibilityChain, { ChainLink } from "../../ResponsibilityChain.js";
+import UsernameAvailableCommand from "../Commands/UsernameAvailable.js";
 
 class HandleCreateUser
 {
     private create: CreateUser;
     private hash: HashPassword;
-    private load: LoadUser;
-    private unload: UnloadUser;
+    private available: UsernameAvailableCommand;
 
     private cor = new ResponsibilityChain();
 
@@ -21,23 +19,19 @@ class HandleCreateUser
         password,
         private handler = new UserHandler(),
     ) {
-        this.load = new LoadUser(this.handler, username);
+        this.available = new UsernameAvailableCommand(this.handler, username);
 
-        this.create = new CreateUser(this.handler, {
-            username,
-            password
-        });
+        this.create = new CreateUser(this.handler, username);
 
-        this.hash = new HashPassword(this.handler);
+        this.hash = new HashPassword(this.handler, password);
     }
 
     async handle()
     {
         const actions = this.cor.buildChain([
-            this.load,
+            this.available,
             this.hash,
             this.create,
-            this.unload,
         ]);
 
         this.history = actions;

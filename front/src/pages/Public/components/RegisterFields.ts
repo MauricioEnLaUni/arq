@@ -2,11 +2,11 @@ import { RegisterValidator } from "./ValidationOperation";
 
 const path = "register.fields.";
 const fields = [
-    { id: "usr", autoComplete: "off" },
-    { type: "password", id: "pwd" },
+    { id: "username", autoComplete: "off" },
+    { id: "password", type: "password" },
 ]
 const regexs = [
-    /^[A-z][A-z0-9-_]{3,23}$/,
+    /^[A-z][A-z0-9-_]{2,23}$/,
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/,
 ];
 

@@ -5,7 +5,6 @@ import { TResult } from "../../../lib/utils/Result.js";
 import RedisProxy from "../../../lib/proxies/RedisProxy.js";
 import User from "../user/User.js";
 import AUTH_ERROR from "../../../lib/errors/AuthError.js";
-import Token from "./Token.js";
 
 class TokenHandler
 {

@@ -38,7 +38,7 @@ class HandleLogin
         
         return await this.cor.run({
             chain: actions,
-            action: "UNDO",
+            action: "BREAK",
             stack: []
         });
     }

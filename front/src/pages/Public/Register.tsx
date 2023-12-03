@@ -1,13 +1,10 @@
-// React
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-// MUI
 import Paper from "@mui/material/Paper/Paper";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 
-// Custom
 import StackMember from "./components/StackMember";
 import Button from "../../components/Button";
 import { useTranslation } from "react-i18next";
@@ -39,7 +36,7 @@ const Register = () => {
                     { fields.map(e => (
                         <AuthField
                             key={e[0]}
-                            props={{ ...e[1].fields, label: e[0] }}
+                            props={{ ...e[1].fields, label: e[0], }}
                             validation={e[1].operation}
                             child={`${ e[0] }.note`} />))}
                     <StackMember>

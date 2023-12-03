@@ -1,7 +1,6 @@
 import crypto, { timingSafeEqual } from "crypto";
 
 import User from "../User.js";
-import UserDto from "./UserDto.js";
 import ERRORS from "../../../../lib/errors/Catalog.js";
 import PgProxy from "../../../../lib/proxies/PgProxy.js";
 import { TResult } from "../../../../lib/utils/Result.js";
@@ -15,13 +14,28 @@ class UserHandler
 
     get id() { return this.current.username; };
 
-    public async LoadUser(id: string, p: PgProxy = new PgProxy("USERS"))
+    public async LoadUser(id: string, p = new PgProxy("USERS"))
     {
-        const result = await p.getById(id);
+        const result = await p.getById({ username: id });
 
         this.current = result.value as User;
 
         return result;
+    }
+
+    public async UsernameAvailable(id: string, p = new PgProxy("USERS"))
+    {
+        const result = await p.getById({ username: id });
+        
+        if (result.isSuccess()) {
+            return TResult.Failure(AUTH_ERROR.CONFLICT);
+        }
+
+        this.current = new User();
+        this.current.username = id;
+        this.current.active = true;
+
+        return TResult.Success(true);
     }
 
     public async ClearUser()
@@ -32,10 +46,8 @@ class UserHandler
         return result;
     }
 
-    public async Hash()
+    public async Hash(clearText: string)
     {
-        const clearText = this.current.password;
-
         const hash = await new Promise((resolve, reject) => {
             const salt = crypto.randomBytes(16);
     
@@ -90,16 +102,13 @@ class UserHandler
         return TResult.Failure(AUTH_ERROR.WRONG_PASSWORD);
     }
     
-    public async CreateUser(record: UserDto, p: PgProxy = new PgProxy("USERS"))
+    public async CreateUser(p: PgProxy = new PgProxy("USERS"), r = new RedisProxy())
     {
-        const usr = await this.LoadUser(record.username, p);
-        if (usr.isSuccess()) return TResult.Failure(HTTP_ERROR[409]);
-
-        const { username, password } = record;
-        const r = new RedisProxy();
+        const { username, password } = this.current;
+        
         const inserts = await Promise.all([
             p.upsert({
-                id: undefined,
+                id: { username },
                 data: {
                     username,
                     password,
@@ -119,11 +128,14 @@ class UserHandler
         ]);
 
         const results = inserts.some(e => e.isFailure());
-        if (!results) {
+        if (results) {
             this.RemoveUser(username);
+            return TResult.Failure(ERRORS.UPDATE_FAILED);
         }
 
-        return TResult.Success(`User ${ this.current  } has been generated`);
+        return TResult.Success({
+            username,
+        });
     }
 
     public async RemoveUser(username: string, p = new PgProxy("USERS"), r = new RedisProxy())

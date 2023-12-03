@@ -55,6 +55,7 @@ class ResponsibilityChain
             }
 
             if (current.isSuccess()) {
+                result = current;
                 continue;
             }
     
@@ -80,7 +81,7 @@ class ResponsibilityChain
         return cmd.map((c, i) => ({
             first: i === 0,
             current: c,
-            next: i !== cmd.length ? c[i + 1] : new EmptyCommand(),
+            next: i + 1 !== cmd.length ? c[i + 1] : new EmptyCommand(),
         }));
     }
 

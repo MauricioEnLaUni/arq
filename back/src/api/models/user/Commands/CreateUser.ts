@@ -1,4 +1,3 @@
-import UserDto from "./UserDto.js";
 import UserHandler from "./UserHandler.js";
 import { ICommand } from "../../../../lib/Abstractions/ICommand.js";
 import { TResult } from "../../../../lib/utils/Result.js";
@@ -7,13 +6,13 @@ class CreateUser implements ICommand
 {
     constructor(
         private receiver: UserHandler,
-        private state: UserDto) {  }
+        private state: string) {  }
 
     async execute(): Promise<TResult> {
-        return await this.receiver.CreateUser(this.state);
+        return await this.receiver.CreateUser();
     }
     async undo(): Promise<TResult> {
-        return await this.receiver.RemoveUser(this.state.username);
+        return await this.receiver.RemoveUser(this.state);
     }
 }
 

@@ -8,7 +8,7 @@ datasource db {
 }
 
 model usuarios {
-  id       String     @id @db.Uuid
+  id       String     @id @db.Uuid @default(uuid())
   username   String     @unique
   password String
   status   UserStatus
@@ -41,7 +41,7 @@ model pokemon {
 }
 
 model ability {
-  id          Int              @id
+  id          Int              @id @default(autoincrement())
   name        String           @unique @db.Text
   description String           @db.Text
   pokemon     PokemonAbility[]
@@ -56,7 +56,7 @@ model PokemonAbility {
 }
 
 model item {
-  id          Int           @id
+  id          Int           @id @default(autoincrement())
   cost        Int
   description String        @db.Text
   name        String        @db.Text
@@ -82,7 +82,7 @@ model move {
   accuracy     Int?
   damageClass  DamageClass
   effectChance Int?
-  description  String        @db.Text
+  description  String?        @db.Text
   name         String        @db.Text
   power        Int?
   pp           Int
@@ -125,7 +125,7 @@ enum DamageFactor {
 }
 
 model damage_relations {
-  key          String       @db.Text
+  key          String       @db.Uuid @default(uuid())
   factor       DamageFactor
   sourceTypeId Int
   targetTypeId Int

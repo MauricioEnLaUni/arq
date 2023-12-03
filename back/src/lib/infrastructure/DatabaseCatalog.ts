@@ -3,6 +3,10 @@ const DATABASE_CATALOG = {
     USERS: "USERS",
     POKEMON: "POKEMON",
     TOKEN: "TOKEN",
+    BOXES: "BOXES",
+    PARTY: "PARTY",
+    BOX_SLOT: "BOX_SLOT",
+    PARTY_SLOT: "PARTY_SLOT",
 } as const;
 
 export type DatabaseCatalog = keyof typeof DATABASE_CATALOG;
