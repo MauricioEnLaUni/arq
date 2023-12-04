@@ -1,5 +1,4 @@
 import ERRORS from "../errors/Catalog.js"
-import IRecord from "../Abstractions/IRecord.js";
 import { TResult, Result } from "../utils/Result.js";
 import IDataProvider from "../Abstractions/IDataProvider.js";
 import PgAccess from "../infrastructure/PgAccess.js";

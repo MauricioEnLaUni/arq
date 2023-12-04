@@ -1,15 +1,21 @@
-import AES from "../infrastructure/encryption/AES.js";
+import nacl from "tweetnacl";
+import { decode } from "@msgpack/msgpack";
 
 export default (req, res, next) => {
-    const { bytes } = req.body;
-    const encrypted = new Uint8Array(bytes.split(",").map(Number));
+    const payload = req.body;
 
-    const exists = AES.isSecure(encrypted);
+    try {
+        const data = Buffer.from(payload);
+        const nonce = data.subarray(-24);
+        const encrypted = data.subarray(0, -24);
 
-    if (exists.hasOwnProperty("isOperational")) {
-        next(exists);
+        const key = Buffer.from(process.env.AEAD!);
+
+        req.body = decode(nacl.secretbox.open(encrypted, nonce, key));
+    } catch (error) {
+        console.error(error);
+        next(error);
     }
 
-    req.body = exists;
     next();
 };
